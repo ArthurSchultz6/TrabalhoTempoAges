@@ -6,8 +6,22 @@
     <title>Hello World</title>
     <script src="script.js" defer></script>
 </head>
-<body>
+<body onload="getData()">
     <h1>jhshhs</h1>
-    <div>test</div>
+    <div id="horario">horario</div>
+    <div id="temp">temperatura</div>
+    <div id="sensacao">sensação térmica</div>
+    <div id="temp_max">temperatura máxima</div>
+    <div id="temp_min">temperatura mínima</div>
+    <div id="nuvens">nuvens</div>
+    <div id="icone">icone</div>
+    <div id="umidade">umidade</div>
+    <div id="chuva">chuva</div>
+    <div id="vel_vento">velocidade do vento</div>
+    <div id="dir_vento">direção do vento</div>
+    <div id="nascer_do_sol">nascer do sol</div>
+    <div id="por_do_sol">por do sol</div>
+
+    <button onclick="getData()">atualizar</button>
 </body>
 </html>

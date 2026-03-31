@@ -1,0 +1,49 @@
+Object { coord: {…}, weather: (1) […], base: "stations", main: {…}, visibility: 10000, wind: {…}, clouds: {…}, dt: 1774977980, sys: {…}, timezone: -10800, … }
+​
+​obj.base
+
+obj.clouds = objeto
+obj.clouds.all = valor númerico
+​
+
+​obj.cod
+
+obj.coord = objeto coord
+obj.coord.lat = latitude
+obj.coord.lon = longitude
+
+obj.dt = data UTC em ms
+​
+obj.id
+​
+obj.main = objeto
+​obj.main.temp = temperatura
+obj.main.feels_like = sensação térmica
+obj.main.temp_max = temperatura máxima
+obj.main.temp_min = temperatura mínima
+obj.main.humidity = umidade
+obj.main.pressure = pressão atmosférica
+​obj.main.grnd_level = pressão atmosférica no nível da localização
+obj.main.sea_level = pressão no nível do mar
+
+obj.timezone
+​
+obj.visibility
+​
+obj.weather = objeto
+obj.weather.description = descrição do tempo (nuvens)
+obj.weather.icon
+obj.weather.id
+obj.weather.main
+
+obj.sys = objeto
+obj.sys.country = país
+obj.sys.id
+obj.sys.sunrise
+obj.sys.sunset
+obj.sys.type
+​
+
+obj.wind = objeto
+obj.wind.deg = graus de inclinação do vento
+obj.wind.speed = velocidade do vento
