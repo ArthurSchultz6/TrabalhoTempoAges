@@ -1,0 +1,22 @@
+body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            transition: background 1.5s ease; 
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .glass-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        h1 { font-size: 3rem; margin: 0; }
