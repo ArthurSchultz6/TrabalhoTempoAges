@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
     <script src="script.js" defer></script>
+    <style>
+        table {border: 1px solid black;}
+        td {border: 1px solid black;}
+        th {border: 1px solid black;}
+    </style>
 </head>
-<body onload="getData()">
-    <h1>jhshhs</h1>
+<body onload="getData(); getForecast(); getCidades()">
+    <input id ="local" list = "cidades"></button>
+    <datalist id="cidades">
+    </datalist>
     <div id="horario">horario</div>
     <div id="temp">temperatura</div>
     <div id="sensacao">sensação térmica</div>
@@ -22,6 +29,14 @@
     <div id="nascer_do_sol">nascer do sol</div>
     <div id="por_do_sol">por do sol</div>
 
-    <button onclick="getData()">atualizar</button>
+    <table id="forecast">
+        <th>dia</th>
+        <th>hora</th>
+        <th>temp</th>
+        <th>chuva</th>
+        <th>umidade</th>
+    </table>
+
+    <button onclick="getData(); getForecast()">atualizar</button>
 </body>
 </html>
