@@ -9,7 +9,7 @@ function updateBackgroundByTemp(temp) {
 
             let porcentagem = (temp - minTemp) / (maxTemp - minTemp);
             
-            // Constrain between 0 and 1
+
             porcentagem = Math.max(0, Math.min(1, porcentagem));
 
 
@@ -18,10 +18,9 @@ function updateBackgroundByTemp(temp) {
 
             document.body.style.background = `hsl(${hue}, 70%, 50%)`;
 
-            // Add a text description
-            if(temp <= 15) desc.innerText = "It's chilly!";
-            else if(temp > 15 && temp < 28) desc.innerText = "Perfect weather.";
-            else desc.innerText = "It's a scorcher!";
+            if(temp <= 15) desc.innerText = "Ta congelando!";
+            else if(temp > 15 && temp < 28) desc.innerText = "temperatura agradavel";
+            else desc.innerText = "ta pelando!";
         }
 
         const mockTemp = 32; 
