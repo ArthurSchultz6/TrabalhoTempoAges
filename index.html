@@ -1,22 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title></title>
+    <title>Previsão do tempo - Simulação</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<div class="glass-box">
-        <p>Current Temperature</p>
-        <h1 id="temp-display">--°C</h1>
-        <p id="desc">Fetching data...</p>
+<body class="state-clear">
+    <canvas id="weatherCanvas"></canvas>
+
+    <div class="search-bar">
+        <input type="text" id="city-input" placeholder="Digite: sol, chuva ou tempestade">
+        <button id="search-btn">Buscar</button>
     </div>
-        <div class="caixaInfoGeral">
-        <p>Informacoes gerais</p>
-        <h1 id="">--°C</h1>
-        <p id="desc">Fetching data...</p>
+
+    <main class="dashboard-container">
+        <div class="top-row">
+            <div class="glass-box main-weather">
+                <h2 id="city-name">Porto Alegre</h2>
+                <h1 id="temp-display">--°C</h1>
+                <p id="condition-desc">Sincronizando...</p>
+            </div>
+
+            <div class="glass-box details-weather">
+                <div class="info-item"><span>Umidade</span> <b id="hum-val">--</b></div>
+                <div class="info-item"><span>Vento</span> <b id="wind-val">--</b></div>
+                <div class="info-item"><span>Sensação</span> <b id="feels-val">--</b></div>
+            </div>
+        </div>
+
+        <div id="forecast-container" class="forecast-grid">
+            </div>
+    </main>
+
+    <div id="character-wrapper" class="hidden">
+        <div class="umbrella"></div>
+        <div class="person"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

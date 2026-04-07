@@ -1,30 +1,159 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: sans-serif;
-            transition: background 1.5s ease; 
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background 1.5s ease, filter 0.3s;
+    overflow: hidden;
+    background-color: #4facfe;
+}
 
-        .glass-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .caixaInfoGeral {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
+#weatherCanvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        h1 { font-size: 3rem; margin: 0; }
+/* --- Barra de busca --- */
+.search-bar {
+    position: relative;
+    z-index: 100;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar input {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.3); 
+    color: white !important; 
+    font-size: 16px;
+    outline: none;
+    backdrop-filter: blur(10px);
+    width: 280px;
+}
+
+.search-bar input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+.search-bar button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- Dashboards --- */
+.dashboard-container {
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    width: 90%;
+}
+
+.top-row { display: flex; gap: 20px; flex-wrap: wrap; }
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.info-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
+
+/* --- climas --- */
+.state-clear { background: linear-gradient(180deg, #4facfe, #00f2fe); }
+.state-rain-light { background: linear-gradient(180deg, #57606f, #2f3542); }
+.state-rain-heavy { background: linear-gradient(180deg, #1a1a2e, #000000); }
+
+/* --- clima da semana --- */
+.forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+.forecast-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Pessoinha --- */
+#character-wrapper { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 5%; 
+    z-index: 100; 
+    transition: 0.8s; 
+}
+
+#character-wrapper.hidden { 
+    opacity: 0; 
+    transform: translateY(150px); 
+}
+
+#character-wrapper.visible { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* Corpo do boneco */
+.person { 
+    width: 40px; 
+    height: 100px; 
+    background: #e0e0e0; 
+    border-radius: 20px 20px 0 0; 
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* Cabeça do Boneco */
+.person::before {
+    content: "";
+    position: absolute;
+    top: -35px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 50%;
+}
+
+/* O Guarda-chuva */
+.umbrella { 
+    width: 110px; 
+    height: 55px; 
+    background: #f1c40f; 
+    border-radius: 100px 100px 0 0; 
+    position: absolute; 
+    top: -100px; 
+    left: -65px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Cabo do guarda-chuva  */
+.umbrella::after {
+    content: "";
+    position: absolute;
+    bottom: -110px; 
+    left: 53px;
+    width: 4px;
+    height: 110px;
+    background: #555;
+}
+/* --- Tremor --- */
+@keyframes shake {
+    0% { transform: translate(1px, 1px); }
+    50% { transform: translate(-2px, 2px); }
+    100% { transform: translate(1px, -1px); }
+}
+.shake-active { animation: shake 0.3s; }
