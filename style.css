@@ -157,3 +157,39 @@ body {
     100% { transform: translate(1px, -1px); }
 }
 .shake-active { animation: shake 0.3s; }
+/* --- Óculos de Sol --- */
+.glasses {
+    position: absolute;
+    top: -22px; /* Posiciona no rosto do boneco */
+    left: 8px;
+    display: none; /* Começa escondido */
+    z-index: 10;
+}
+
+/* Lentes do óculos */
+.glasses::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    background: #222; /* Cor da lente */
+    border-radius: 2px;
+    box-shadow: 14px 0 #222; /* Cria a segunda lente */
+}
+
+/* Haste/Ponte do óculos */
+.glasses::after {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: #222;
+    top: 2px;
+}
+
+/* Classes de controle para mostrar/esconder */
+.show-umbrella .umbrella { display: block; }
+.show-umbrella .glasses { display: none; }
+
+.show-glasses .umbrella { display: none; }
+.show-glasses .glasses { display: block; }
