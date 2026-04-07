@@ -63,16 +63,26 @@ function aplicarClima(tipo) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Aplica Novo Clima
+    const wrapper = document.getElementById('character-wrapper');
+    wrapper.className = 'visible'; // Sempre deixa visível para sol, chuva ou tempestade
+
     if (data.rain) {
         document.body.classList.add(data.mode === 'heavy' ? 'state-rain-heavy' : 'state-rain-light');
-        document.getElementById('character-wrapper').className = 'visible';
+        
+        // Mostra guarda-chuva e esconde óculos
+        wrapper.classList.add('show-umbrella');
+        wrapper.classList.remove('show-glasses');
+
         createParticles(data.mode);
         animate();
         if(data.mode === 'heavy') dispararRaio();
     } else {
         document.body.classList.add('state-clear');
+        
+        // Mostra óculos e esconde guarda-chuva
+        wrapper.classList.add('show-glasses');
+        wrapper.classList.remove('show-umbrella');
     }
-
     // Gerar Forecast Fake
     const grid = document.getElementById('forecast-container');
     grid.innerHTML = '';
