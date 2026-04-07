@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <script src="script.js" defer></script>
-    <style>
-        table {border: 1px solid black;}
-        td {border: 1px solid black;}
-        th {border: 1px solid black;}
-    </style>
+    <title>Previsão do tempo - Simulação</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body onload="getData(); getForecast(); getCidades()">
-    <input id ="local" list = "cidades"></button>
-    <datalist id="cidades">
-    </datalist>
-    <div id="horario">horario</div>
-    <div id="temp">temperatura</div>
-    <div id="sensacao">sensação térmica</div>
-    <div id="temp_max">temperatura máxima</div>
-    <div id="temp_min">temperatura mínima</div>
-    <div id="nuvens">nuvens</div>
-    <div id="icone">icone</div>
-    <div id="umidade">umidade</div>
-    <div id="chuva">chuva</div>
-    <div id="vel_vento">velocidade do vento</div>
-    <div id="dir_vento">direção do vento</div>
-    <div id="nascer_do_sol">nascer do sol</div>
-    <div id="por_do_sol">por do sol</div>
+<body class="state-clear" onload="getCoords()">
+    <canvas id="weatherCanvas"></canvas>
 
-    <table id="forecast">
-        <th>dia</th>
-        <th>hora</th>
-        <th>temp</th>
-        <th>chuva</th>
-        <th>umidade</th>
-    </table>
+    <div class="search-bar">
+        <input type="text" id="city-input" onchange="getCoords()">
+        <button id="search-btn">Buscar</button>
+    </div>
 
-    <button onclick="getData(); getForecast()">atualizar</button>
+    <main class="dashboard-container">
+        <div class="top-row">
+            <div class="glass-box main-weather">
+                <h2 id="city-name">Porto Alegre, RS</h2>
+                <h1 id="temp-display">--°C</h1>
+                <p id="condition-desc">Sincronizando...</p>
+            </div>
+
+            <div class="glass-box details-weather">
+                <div class="info-item"><span>Umidade</span> <b id="hum-val">--</b></div>
+                <div class="info-item"><span>Vento</span> <b id="wind-val">--</b></div>
+                <div class="info-item"><span>Sensação</span> <b id="feels-val">--</b></div>
+            </div>
+        </div>
+
+        <div id="forecast-container" class="forecast-grid">
+            </div>
+    </main>
+
+    <div id="character-wrapper" class="hidden">
+        <div class="umbrella"></div>
+        <div class="glasses"></div>
+        <div class="person"></div>
+    </div>
+    <script src="styleScript.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
