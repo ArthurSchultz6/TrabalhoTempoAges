@@ -73,9 +73,12 @@ body {
 .info-item { display: flex; justify-content: space-between; margin-bottom: 10px; }
 
 /* --- climas --- */
-.state-clear { background: linear-gradient(180deg, #4facfe, #00f2fe); }
-.state-rain-light { background: linear-gradient(180deg, #57606f, #2f3542); }
-.state-rain-heavy { background: linear-gradient(180deg, #1a1a2e, #000000); }
+.clear { background: linear-gradient(180deg, #4facfe, #00f2fe); }
+.clouds { background: linear-gradient(180deg, #cce3f0, #a9def4); }
+.drizzle { background: linear-gradient(180deg, #8fb1b2, #bcd6de); }
+
+.rain { background: linear-gradient(180deg, #57606f, #2f3542); }
+.thunderstorm { background: linear-gradient(180deg, #1a1a2e, #000000); }
 
 /* --- clima da semana --- */
 .forecast-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
@@ -86,6 +89,7 @@ body {
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 
 /* --- Pessoinha --- */
 #character-wrapper { 
@@ -113,7 +117,7 @@ body {
     background: #e0e0e0; 
     border-radius: 20px 20px 0 0; 
     position: relative;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 15px rgba(123,123,123,0.5);
 }
 
 /* Cabeça do Boneco */
@@ -126,6 +130,7 @@ body {
     height: 30px;
     background: #e0e0e0;
     border-radius: 50%;
+    box-shadow: 0 0 15px rgba(123, 123, 123, 0.5);
 }
 
 /* O Guarda-chuva */
@@ -185,6 +190,7 @@ body {
     height: 2px;
     background: #222;
     top: 2px;
+    
 }
 
 /* Classes de controle para mostrar/esconder */

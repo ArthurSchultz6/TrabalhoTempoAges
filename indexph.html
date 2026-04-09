@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <script src="scriptph.js" defer></script>
+    <style>
+        table {border: 1px solid black;}
+        td {border: 1px solid black;}
+        th {border: 1px solid black;}
+    </style>
+</head>
+<body onload="getData(); getForecast()">
+    <div>
+        <!--
+        <select list = "cidades" id ="local" name="local" onchange="getCoords()">
+            <option value="" disabled selected hidden>Porto Alegre</option>
+        </select>
+    -->
+        <input id = "city-input" name="city-input" placeholder="Porto Alegre, RS" onchange="getCoords()">
+        <div id="city-name">Porto Alegre, RS</div>
+        
+
+    </div>
+    <div>
+        <div id="temp-display">temperatura</div>
+        <div id="feels-val">sensação térmica</div>
+        <!--
+        <div id="temp_max">temperatura máxima</div>
+        <div id="temp_min">temperatura mínima</div>-->
+        <div id="condition-desc">nuvens</div>
+        <div id="hum-val">umidade</div>
+        <div id="wind-val">velocidade do vento</div>
+        <!--<div id="dir_vento">direção do vento</div>
+        <div id="nascer_do_sol">nascer do sol</div>
+        <div id="por_do_sol">por do sol</div>-->
+
+        <table id="forecast">
+            <th>dia</th>
+            <th>hora</th>
+            <th>temp</th>
+            <th>chuva</th>
+            <th>umidade</th>
+        </table>
+
+        <button onclick="getCoords(); getData(); getForecast()">atualizar</button>
+    </div>
+
+</body>
+</html>
