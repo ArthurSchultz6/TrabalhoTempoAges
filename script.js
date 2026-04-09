@@ -1,110 +1,186 @@
-// --- Configuração dos canvas ---
-const canvas = document.getElementById('weatherCanvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let animId;
+import { aplicarClima } from './styleScript.js';
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+let lang = "pt_br";
+let countryCode = "BR";
+const appid = "d2dd3ebe824843148eda1d70b6bba58d";
+
+let lat;
+let lon;
+
+const estados = {
+  "AC":"Acre",
+  "AL":"Alagoas",
+  "AP":"Amapá",
+  "AM": "Amazonas",
+  "BA": "Bahia",
+  "CE": "Ceará",
+  "DF": "Distrito Federal",
+  "ES": "Espírito Santo",
+  "GO": "Goiás",
+  "MA": "Maranhão",
+  "MT": "Mato Grosso",
+  "MS": "Mato Grosso do Sul",
+  "MG": "Minas Gerais",
+  "PA": "Pará",
+  "PB": "Paraíba",
+  "PR": "Paraná",
+  "PE": "Pernambuco",
+  "PI": "Piauí",
+  "RJ": "Rio de Janeiro",
+  "RN": "Rio Grande do Norte",
+  "RS": "Rio Grande do Sul",
+  "RO": "Rondônia",
+  "RR": "Roraima",
+  "SC": "Santa Catarina",
+  "SP": "São Paulo",
+  "SE": "Sergipe",
+  "TO": "Tocantins"
 }
-window.addEventListener('resize', resize);
-resize();
 
-// --- Chuvinha ---
-function createParticles(mode) {
-    particles = [];
-    const count = mode === 'heavy' ? 400 : 150;
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            speed: Math.random() * 10 + (mode === 'heavy' ? 15 : 7),
-            len: Math.random() * 15 + 10
-        });
+const diasDaSemana = {
+  "0":"Dom",
+  "1":"Seg",
+  "2":"Ter",
+  "3":"Qua",
+  "4":"Qui",
+  "5":"Sex",
+  "6":"Sab"
+}
+
+
+const cond = document.getElementById("cond");
+const local = document.getElementById("city-input");
+const local_display = document.getElementById("city-name");
+const buscar = document.getElementById("search-btn");
+const temp = document.getElementById("temp-display"); // graus atuais em celsius
+const sensacao = document.getElementById("feels-val"); // sensção térmica em célsius
+const desc = document.getElementById("condition-desc"); // céu limpo, poucas nuvens, nublado, chovendo, etc
+const umidade = document.getElementById("hum-val"); // umidade do ar em %
+const vel_vento = document.getElementById("wind-val"); // velocidade do vento em km/h
+
+const forecast = document.getElementById("forecast");
+const forecast_display = document.getElementById("forecast-container");
+
+local.value = "Porto Alegre, RS";
+
+
+async function getData() {
+  const url =  `https://api.openweathermap.org/data/2.5/weather?lang=${lang}&&lat=${lat}&lon=${lon}&appid=${appid}&units=metric`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
     }
+
+    const result = await response.json();
+    const obj = result;
+    console.log("0:");
+    console.log(result)
+
+    cond.innerText = obj.weather[0].main.toLowerCase()
+    local_display.innerText = obj.name;
+    temp.innerText = obj.main.temp.toFixed(1) +"°C";
+    sensacao.innerText = obj.main.feels_like.toFixed(1) +"°C";
+    desc.innerText = capitalize(obj.weather[0].description);
+    umidade.innerText = obj.main.humidity+"%";
+    vel_vento.innerText = (obj.wind.speed * 3.6).toFixed(2) +" km/h";
+    aplicarClima();
+
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = 'rgba(174, 194, 224, 0.5)';
-    ctx.lineWidth = 1;
-    particles.forEach(p => {
-        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y + p.len); ctx.stroke();
-        p.y += p.speed;
-        if (p.y > canvas.height) p.y = -20;
-    });
-    animId = requestAnimationFrame(animate);
-}
+async function getCoords(){
+  try {
+    let cidade = local.value.split(",")[0].trim();
+    let estado = estados[local.value.split(",")[1].trim()];
 
-// --- Dados fakes para simulação ---
-const climas = {
-    'sol': { name: 'Porto Alegre', temp: 31, hum: 35, wind: 12, feel: 33, desc: 'Céu ensolarado', rain: false },
-    'chuva': { name: 'Porto Alegre', temp: 19, hum: 85, wind: 20, feel: 18, desc: 'Chuva passageira', rain: true, mode: 'light' },
-    'tempestade': { name: 'Porto Alegre', temp: 15, hum: 95, wind: 55, feel: 13, desc: 'Tempestade severa', rain: true, mode: 'heavy' }
-};
-
-// --- Função de renderização ---
-function aplicarClima(tipo) {
-    const data = climas[tipo] || climas['sol'];
+    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${cidade}&count=100&language=${lang}&format=json&countryCode=${countryCode}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response was not ok');
     
-    // Atualiza Interface
-    document.getElementById('city-name').innerText = data.name;
-    document.getElementById('temp-display').innerText = `${data.temp}°C`;
-    document.getElementById('hum-val').innerText = `${data.hum}%`;
-    document.getElementById('wind-val').innerText = `${data.wind}km/h`;
-    document.getElementById('feels-val').innerText = `${data.feel}°C`;
-    document.getElementById('condition-desc').innerText = data.desc;
-
-    // Reset Visual
-    cancelAnimationFrame(animId);
-    document.body.className = '';
-    document.getElementById('character-wrapper').className = 'hidden';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Aplica Novo Clima
-    const wrapper = document.getElementById('character-wrapper');
-    wrapper.className = 'visible'; // Sempre deixa visível para sol, chuva ou tempestade
-
-    if (data.rain) {
-        document.body.classList.add(data.mode === 'heavy' ? 'state-rain-heavy' : 'state-rain-light');
-        
-        // Mostra guarda-chuva e esconde óculos
-        wrapper.classList.add('show-umbrella');
-        wrapper.classList.remove('show-glasses');
-
-        createParticles(data.mode);
-        animate();
-        if(data.mode === 'heavy') dispararRaio();
-    } else {
-        document.body.classList.add('state-clear');
-        
-        // Mostra óculos e esconde guarda-chuva
-        wrapper.classList.add('show-glasses');
-        wrapper.classList.remove('show-umbrella');
+    const listaLocais = await response.json(); // Parses JSON into a JS object
+    console.log("1: ");
+    console.log(listaLocais)
+    
+    for (const l of listaLocais.results){
+      console.log("2: i.name:"+l.name+"\ncidade:"+cidade+"\n= "+(l.name.toLowerCase() === cidade.toLowerCase())+"\ni.admin1:"+l.admin1+"\nestado:"+estado+"\n= "+(l.admin1.toLowerCase() === estado.toLowerCase()))
+      if (l.name.toLowerCase() === cidade.toLowerCase() && l.admin1.toLowerCase() === estado.toLowerCase()){
+        lat = l.latitude;
+        lon = l.longitude;
+        console.log("3:")
+        console.log(l)
+        console.log(" lat: "+lat+" lon: "+lon)
+        break;
+      }
     }
-    // Gerar Forecast Fake
-    const grid = document.getElementById('forecast-container');
-    grid.innerHTML = '';
-    ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].forEach(d => {
-        grid.innerHTML += `<div class="forecast-card"><p>${d}</p><h3>24°C</h3><p>Nublado</p></div>`;
+    getData();
+    cleanTable(forecast);
+    getForecast()
+  } catch (error) {
+    console.error('Error loading JSON:', error);
+  }
+}
+
+
+async function getForecast() {
+  const url = `http://api.openweathermap.org/data/2.5//forecast?appid=${appid}&lang=${lang}&lat=${lat}&lon=${lon}&units=metric`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    const obj = result;
+    console.log(result);
+
+    forecast_display.innerHTML = "";
+
+    for (const entry of obj.list){
+      if (parseInt(obj.list.indexOf(entry))%8 === 0){
+        var row = forecast.insertRow();
+        var day = row.insertCell();
+        day.innerText = sec_to_date(entry.dt);
+        
+        var temp = row.insertCell();
+        temp.innerText = entry.main.temp.toFixed(1)+"°C";
+
+        var chuva = row.insertCell();
+        chuva.innerText = entry.weather[0].description;
+        [day].forEach(d => {
+        forecast_display.innerHTML += `<div class="forecast-card"><p>${d.innerText}</p><h3>${temp.innerText}</h3><p>${capitalize(chuva.innerText)}</p></div>`;
     });
+  
+      }
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
-function dispararRaio() {
-    document.body.classList.add('shake-active');
-    document.body.style.filter = "brightness(3)";
-    setTimeout(() => {
-        document.body.classList.remove('shake-active');
-        document.body.style.filter = "brightness(1)";
-    }, 400);
+function cleanTable(table){
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
 }
 
-// Botao para buscae
-document.getElementById('search-btn').onclick = () => {
-    const val = document.getElementById('city-input').value.toLowerCase();
-    aplicarClima(val);
-};
 
-// inicio padrao
-aplicarClima('sol');
+function sec_to_date(sec){
+  let time = new Date(sec*1000);
+  return diasDaSemana[time.getDay()];
+}
+
+function capitalize(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+window.addEventListener('load', function(){
+  getCoords();
+})
+
+buscar.addEventListener('click', function(){
+  getCoords();
+})
